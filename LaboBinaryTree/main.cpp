@@ -256,6 +256,7 @@ public:
 	while (_root->left == nullptr)
 	{
 		_root;
+		//  #TODO finir min
 	}
   }
   
