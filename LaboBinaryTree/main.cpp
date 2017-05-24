@@ -62,6 +62,11 @@ public:
   BinarySearchTree() : _root(nullptr)
   {
     /* ... */
+    /*
+    Node* nouvelArbre = new Node(_root);
+    nbElements = 1;
+    right = left = nullptr;
+    */
   }
   
   /**
@@ -166,7 +171,24 @@ private:
   //
   static bool insert(Node*& r, const_reference key) {
     /* ... */
-    return false;
+    if (r == nullptr)
+    {
+		r = new Node(key);
+	}
+	else if (key < r->key)
+	{
+		insert(r->left, key);
+	}
+	else if (key > r->key)
+	{
+		insert(r->right, key);
+	}
+	else
+	{
+		return false;
+	}
+	
+    return true;
   }
   
 public:
@@ -195,7 +217,23 @@ private:
   //
   static bool contains(Node* r, const_reference key) noexcept {
     /* ... */
-    return false;
+    if (r == nullptr)
+    {
+		return false;
+	}
+	else if (key < r->key)
+	{
+		contains(r->left, key);
+	}
+	else if (key > r->key)
+	{
+		contains(r->right, key);
+	}
+	else
+	{
+		return true;
+	}
+
   }
   
 public:
@@ -210,6 +248,15 @@ public:
   //
   const_reference min() const {
     /* ... */
+    if (_root == nullptr)
+    {
+		throw std::logic_error("logic_error_min");
+		
+	}
+	while (_root->left == nullptr)
+	{
+		_root;
+	}
   }
   
   //
