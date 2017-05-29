@@ -253,11 +253,16 @@ public:
 		throw std::logic_error("logic_error_min");
 		
 	}
+
+    Node*& tmpNode = new Node(_root->key);
 	while (_root->left == nullptr)
 	{
-		_root;
+        tmpNode = _root->left;
+		//_root;
 		//  #TODO finir min
 	}
+    //return _root;
+    return tmpNode;
   }
   
   //
