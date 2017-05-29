@@ -306,7 +306,7 @@ private:
   // l'arbre mais retourne false. Si l'element est present, elle
   // retourne vrai
   //
-  static bool deleteElement( Node*& r, const_reference key) noexcept 
+  static bool deleteElement(Node*& r, const_reference key) noexcept 
   {
       if(r == nullptr)
       {
@@ -315,11 +315,11 @@ private:
       
       if(key < r->key)
       {
-          r->left = deleteElement(r->left,key);
+          deleteElement(r->left,key);
       }
       else if(key > r->key)
       {
-          r->right = deleteElement(r->right, key);
+          deleteElement(r->right, key);
       }
       else
       {
@@ -339,10 +339,11 @@ private:
           {
               //suppression de Hibbard
               
+              
           }
       }
 
-      return false;
+      return true;
   }
   
 public:
