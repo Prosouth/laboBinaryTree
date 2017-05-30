@@ -306,45 +306,45 @@ private:
   // l'arbre mais retourne false. Si l'element est present, elle
   // retourne vrai
   //
-  static bool deleteElement(Node*& r, const_reference key) noexcept 
-  {
-      if(r == nullptr)
-      {
-          return false;
-      }
-      
-      if(key < r->key)
-      {
-          deleteElement(r->left,key);
-      }
-      else if(key > r->key)
-      {
-          deleteElement(r->right, key);
-      }
-      else
-      {
-          if(r->right == nullptr)
-          {
-              //effacer R et
-              ~Node();
-              return r->left;
-          }
-          else if(r->left == nullptr)
-          {
-              //effacer R et 
-              ~Node();
-              return r->right;
-          }
-          else
-          {
-              //suppression de Hibbard
-              
-              
-          }
-      }
+    static bool deleteElement(Node*& r, const_reference key) noexcept
+    {
+        if (r) {
+            if (r->key < key) {
+                return deleteElement(r->right, key);
+            } else if (r->key > key) {
+                return deleteElement(r->left, key);
+            }
 
-      return true;
-  }
+            Node* toDelete = r;
+            Node* toReplace = nullptr;
+            Node* previous = nullptr;
+
+            if (r->right) {
+                toReplace = r->right;
+                while (toReplace->left) {
+                    previous = toReplace;
+                    toReplace = toReplace->left;
+                }
+                if (previous) {
+                    previous->left = toReplace->right;
+                } else {
+                    toDelete->right = toReplace->right;
+                }
+                r = toReplace;
+                toReplace->left = toDelete->left;
+                toReplace->right = toDelete->right;
+            } else if (r->left) {
+                r = r->left;
+                delete toDelete;
+                return true;
+            } else {
+                return false;
+            }
+
+            delete toDelete;
+            return true;
+        }
+    }
   
 public:
   //
