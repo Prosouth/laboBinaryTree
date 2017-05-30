@@ -276,10 +276,10 @@ public:
   //
   void deleteMin() 
   {
-      delete RemoveMinAndReturnIt(_root);
+      delete removeMinAndReturnIt(_root);
   }
   
-  static Node* RemoveMinAndReturnIt(Node* r){
+  static Node* removeMinAndReturnIt(Node* r){
       if (!r) 
       {
          throw logic_error("_root est à nullptr");
@@ -329,7 +329,6 @@ private:
   //
     static bool deleteElement(Node*& r, const_reference key) noexcept
     { 
-        
         if (!r) 
         {
             return false;
@@ -359,7 +358,7 @@ private:
             else 
             {  
                Node* tmp = r;
-               r = RemoveMinAndReturnIt(r->right);
+               r = removeMinAndReturnIt(r->right);
                r->left = tmp->left;
                r->right = tmp->right;
                delete tmp;
@@ -561,7 +560,7 @@ public:
     string l1, l2;
     
     size_t W = 11;
-    while( getline(ss3,l1) )
+    while( getline(ss3,l1))
       if (l1.length() > W) W = l1.length();
 
     displayKeys(ss1);
