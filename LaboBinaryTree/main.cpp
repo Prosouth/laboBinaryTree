@@ -169,8 +169,8 @@ private:
   // x peut éventuellement valoir nullptr en entrée.
   // la fonction peut modifier x, reçu par référence, si nécessaire
   //
-  static bool insert(Node*& r, const_reference key) {
-    /* ... */
+  static bool insert(Node*& r, const_reference key) 
+  {
     if (r == nullptr)
     {
 		r = new Node(key);
@@ -262,7 +262,7 @@ public:
 
     return tmpNode->key;
   }
-  
+
   //
   // @brief Supprime le plus petit element de l'arbre.
   //
@@ -270,8 +270,9 @@ public:
   //
   // vous pouvez mettre en oeuvre de manière iterative ou recursive a choix
   //
-  void deleteMin() {
-    /* ... */
+  void deleteMin() 
+  {
+      deleteElement(min());
   }
   
   
@@ -302,9 +303,44 @@ private:
   // l'arbre mais retourne false. Si l'element est present, elle
   // retourne vrai
   //
-  static bool deleteElement( Node*& r, const_reference key) noexcept {
-    /* ... */
-    return false;
+  static bool deleteElement(Node*& r, const_reference key) noexcept 
+  {
+      if(r == nullptr)
+      {
+          return false;
+      }
+      
+      if(key < r->key)
+      {
+          deleteElement(r->left,key);
+      }
+      else if(key > r->key)
+      {
+          deleteElement(r->right, key);
+      }
+      else
+      {
+          if(r->right == nullptr)
+          {
+              //effacer R et
+              ~Node();
+              return r->left;
+          }
+          else if(r->left == nullptr)
+          {
+              //effacer R et 
+              ~Node();
+              return r->right;
+          }
+          else
+          {
+              //suppression de Hibbard
+              
+              
+          }
+      }
+
+      return true;
   }
   
 public:
