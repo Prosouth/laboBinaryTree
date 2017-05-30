@@ -329,32 +329,44 @@ private:
   //
     static bool deleteElement(Node*& r, const_reference key) noexcept
     { 
-    if (r == nullptr) {
-         return false;
-      }
+        
+        if (r == nullptr) 
+        {
+            return false;
+        }
 
-      if (key < r->key) {
-         deleteElement(r->left, key);
+            if (key < r->key)
+            {
+               deleteElement(r->left, key);
 
-      } else if (key > r->key) {
-         deleteElement(r->right, key);
-      } else { // on a trouver KEY 
-         if (r->right == nullptr) {
-            delete r;
-            r = r->left;
-         } else if (r->left == nullptr) {
-            delete r;
-            r = r->right;
-         } else {  // Supression de Hibbard
-            Node* tmp = r;
-            r = RemoveMinAndReturnIt(r->right);
-            r->left = tmp->left;
-            r->right = tmp->right;
-            delete tmp;
-         }
-         
-         return true;
-      }
+            } 
+            else if (key > r->key) 
+            {
+               deleteElement(r->right, key);
+            }
+            else
+            {  
+                if (r->right == nullptr) 
+                {
+                   delete r;
+                   r = r->left;
+                } 
+                else if (r->left == nullptr) 
+                {
+                   delete r;
+                   r = r->right;
+                }
+                else 
+                {  
+                   Node* tmp = r;
+                   r = RemoveMinAndReturnIt(r->right);
+                   r->left = tmp->left;
+                   r->right = tmp->right;
+                   delete tmp;
+                }
+
+             return true;
+          }
    }
 
   
