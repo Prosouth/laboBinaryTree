@@ -247,22 +247,20 @@ public:
   // vous pouvez mettre en oeuvre de manière iterative ou recursive a choix
   //
   const_reference min() const {
-    /* ... */
+
     if (_root == nullptr)
     {
 		throw std::logic_error("logic_error_min");
-		
 	}
 
-    Node*& tmpNode = new Node(_root->key);
-	while (_root->left == nullptr)
+    Node* tmpNode = _root;
+
+	while (tmpNode->left != nullptr)
 	{
-        tmpNode = _root->left;
-		//_root;
-		//  #TODO finir min
+        tmpNode = tmpNode->left;
 	}
-    //return _root;
-    return tmpNode;
+
+    return tmpNode->key;
   }
   
   //
