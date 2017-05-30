@@ -548,12 +548,16 @@ public:
       if(!leaf->left)
       {
           parcoursSymetrique(leaf->left, f);
-          f(leaf->key);
-          parcoursSymetrique(leaf->right, f);
+          
+          
       }
      
+      f(leaf->key);
       
-      
+      if(!leaf->right)
+      {
+          parcoursSymetrique(leaf->right, f);
+      }
   }
   
   //
