@@ -335,38 +335,38 @@ private:
             return false;
         }
 
-            if (key < r->key)
-            {
-               deleteElement(r->left, key);
+        if (key < r->key)
+        {
+           deleteElement(r->left, key);
 
+        } 
+        else if (key > r->key) 
+        {
+           deleteElement(r->right, key);
+        }
+        else
+        {  
+            if (!r->right) 
+            {
+               delete r;
+               r = r->left;
             } 
-            else if (key > r->key) 
+            else if (!r->left) 
             {
-               deleteElement(r->right, key);
+               delete r;
+               r = r->right;
             }
-            else
+            else 
             {  
-                if (r->right == nullptr) 
-                {
-                   delete r;
-                   r = r->left;
-                } 
-                else if (r->left == nullptr) 
-                {
-                   delete r;
-                   r = r->right;
-                }
-                else 
-                {  
-                   Node* tmp = r;
-                   r = RemoveMinAndReturnIt(r->right);
-                   r->left = tmp->left;
-                   r->right = tmp->right;
-                   delete tmp;
-                }
+               Node* tmp = r;
+               r = RemoveMinAndReturnIt(r->right);
+               r->left = tmp->left;
+               r->right = tmp->right;
+               delete tmp;
+            }
 
-             return true;
-          }
+         return true;
+         }
    }
 
   
