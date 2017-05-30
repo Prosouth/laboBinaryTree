@@ -276,30 +276,7 @@ public:
   //
   void deleteMin() 
   {
-<<<<<<< HEAD
       delete removeMinAndReturnIt(_root);
-=======
-    if (_root == nullptr)
-    {
-		throw std::logic_error("logic_error_deleteMin");
-	}
-
-    Node* tmpNode = _root;
-
-	while (tmpNode->left != nullptr)
-	{
-        Node* delNode = tmpNode->left;
-        if (delNode->left == nullptr)
-        {
-            tmpNode->left = delNode->right;
-            delete delNode;
-        }
-        else
-        {
-            tmpNode = tmpNode->left;
-        }
-	}
->>>>>>> 69eedc9a66bb964cba132a72276ca510060349c3
   }
   
   static Node* removeMinAndReturnIt(Node* r){
@@ -309,13 +286,16 @@ public:
       }
 
       Node *current = r;
-      while (current->left->left != nullptr) {
+      while (current->left->left != nullptr) 
+      {
          current = current->left;
       }
       Node *current_left = current->left;
-      if (current_left->right != nullptr) {
+      if (current_left->right != nullptr) 
+      {
          current->left = current_left->right;
-      } else {
+      } else 
+      {
          current->left = nullptr;
       }
       
