@@ -522,8 +522,28 @@ public:
   //          f(n->key);
   //
   template < typename Fn >
-  void visitPre (Fn f) {
-    /* ... */
+  void visitPre (Fn f) 
+  {
+      if(_root != nullptr)
+      {
+          parcoursPreOrdonne(_root, f);
+      }
+  }
+  
+  template<typename Fn>
+  void parcoursPreOrdonne(Node *leaf, Fn f)
+  {
+      f(leaf->key);
+
+      if(leaf->left != nullptr)
+      {
+          parcoursPreOrdonne(leaf->left, f);
+      }
+      
+      if(leaf->right != nullptr)
+      {
+          parcoursPreOrdonne(leaf->right, f);
+      }
   }
   
   //
