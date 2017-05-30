@@ -536,7 +536,7 @@ public:
   template <typename Fn>
   void visitSym (Fn f) 
   {
-      if(!_root)
+      if(_root != nullptr)
       {
           parcoursSymetrique(_root, f);
       }
@@ -545,16 +545,14 @@ public:
   template <typename Fn>
   void parcoursSymetrique(Node *leaf, Fn f)
   {
-      if(!leaf->left)
+      if(leaf->left != nullptr)
       {
           parcoursSymetrique(leaf->left, f);
-          
-          
       }
      
       f(leaf->key);
       
-      if(!leaf->right)
+      if(leaf->right != nullptr)
       {
           parcoursSymetrique(leaf->right, f);
       }
