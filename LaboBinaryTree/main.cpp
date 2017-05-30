@@ -330,17 +330,17 @@ private:
     static bool deleteElement(Node*& r, const_reference key) noexcept
     { 
         
-        if (r == nullptr) 
+        if (!r) 
         {
             return false;
         }
 
-        if (key < r->key)
+        if (r->key > key)
         {
            deleteElement(r->left, key);
 
         } 
-        else if (key > r->key) 
+        else if (r->key < key) 
         {
            deleteElement(r->right, key);
         }
