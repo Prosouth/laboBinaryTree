@@ -224,21 +224,20 @@ private:
     /* ... */
     if (r == nullptr)
     {
-		return false;
-	}
-	else if (key < r->key)
-	{
-		contains(r->left, key);
-	}
-	else if (key > r->key)
-	{
-		contains(r->right, key);
-	}
-	else
-	{
-		return true;
-	}
-
+        return false;
+    }
+    else if (key < r->key)
+    {
+        contains(r->left, key);
+    }
+    else if (key > r->key)
+    {
+        contains(r->right, key);
+    }
+    else
+    {
+        return true;
+    }
   }
   
 public:
@@ -255,15 +254,15 @@ public:
 
     if (_root == nullptr)
     {
-		throw std::logic_error("logic_error_min");
-	}
+        throw std::logic_error("logic_error_min");
+    }
 
     Node* tmpNode = _root;
 
-	while (tmpNode->left != nullptr)
-	{
+    while (tmpNode->left != nullptr)
+    {
         tmpNode = tmpNode->left;
-	}
+    }
 
     return tmpNode->key;
   }
@@ -299,6 +298,26 @@ public:
 	}
   }
   
+  static Node* RemoveMinAndReturnIt(Node* r){
+      if (!r) 
+      {
+         throw logic_error("_root est à nullptr");
+      }
+
+      Node *current = r;
+      while (current->left->left != nullptr) {
+         current = current->left;
+      }
+      Node *current_left = current->left;
+      if (current_left->right != nullptr) {
+         current->left = current_left->right;
+      } else {
+         current->left = nullptr;
+      }
+      
+      return current_left;
+   }
+  
   
   //
   // @brief Supprime l'element de cle key de l'arbre.
@@ -328,44 +347,47 @@ private:
   // retourne vrai
   //
     static bool deleteElement(Node*& r, const_reference key) noexcept
-    {
-        if (r) {
-            if (r->key < key) {
-                return deleteElement(r->right, key);
-            } else if (r->key > key) {
-                return deleteElement(r->left, key);
-            }
-
-            Node* toDelete = r;
-            Node* toReplace = nullptr;
-            Node* previous = nullptr;
-
-            if (r->right) {
-                toReplace = r->right;
-                while (toReplace->left) {
-                    previous = toReplace;
-                    toReplace = toReplace->left;
-                }
-                if (previous) {
-                    previous->left = toReplace->right;
-                } else {
-                    toDelete->right = toReplace->right;
-                }
-                r = toReplace;
-                toReplace->left = toDelete->left;
-                toReplace->right = toDelete->right;
-            } else if (r->left) {
-                r = r->left;
-                delete toDelete;
-                return true;
-            } else {
-                return false;
-            }
-
-            delete toDelete;
-            return true;
+    { 
+        
+        if (!r) 
+        {
+            return false;
         }
-    }
+
+        if (r->key > key)
+        {
+           deleteElement(r->left, key);
+
+        } 
+        else if (r->key < key) 
+        {
+           deleteElement(r->right, key);
+        }
+        else
+        {  
+            if (!r->right) 
+            {
+               delete r;
+               r = r->left;
+            } 
+            else if (!r->left) 
+            {
+               delete r;
+               r = r->right;
+            }
+            else 
+            {  
+               Node* tmp = r;
+               r = RemoveMinAndReturnIt(r->right);
+               r->left = tmp->left;
+               r->right = tmp->right;
+               delete tmp;
+            }
+
+         return true;
+         }
+   }
+
   
 public:
   //
