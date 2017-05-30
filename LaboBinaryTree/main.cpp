@@ -279,27 +279,27 @@ public:
       delete removeMinAndReturnIt(_root);
   }
   
-  static Node* removeMinAndReturnIt(Node* r){
-      if (!r) 
+  static Node* removeMinAndReturnIt(Node* leaf){
+      if (!leaf) 
       {
-         throw logic_error("_root est à nullptr");
+         throw logic_error("std::Logic_error");
       }
 
-      Node *current = r;
-      while (current->left->left != nullptr) 
+      Node *cur = leaf;
+      while (cur->left->left != nullptr) 
       {
-         current = current->left;
+         cur = cur->left;
       }
-      Node *current_left = current->left;
-      if (current_left->right != nullptr) 
+      Node *cur_left = cur->left;
+      if (cur_left->right != nullptr) 
       {
-         current->left = current_left->right;
+         cur->left = cur_left->right;
       } else 
       {
-         current->left = nullptr;
+         cur->left = nullptr;
       }
       
-      return current_left;
+      return cur_left;
    }
   
   
