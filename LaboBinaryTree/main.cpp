@@ -533,9 +533,27 @@ public:
   //          en parametre. Pour le noeud n courrant, l'appel sera
   //          f(n->key);
   //
-  template < typename Fn >
-  void visitSym (Fn f) {
-    /* ... */
+  template <typename Fn>
+  void visitSym (Fn f) 
+  {
+      if(!_root)
+      {
+          parcoursSymetrique(_root, f);
+      }
+  }
+  
+  template <typename Fn>
+  void parcoursSymetrique(Node *leaf, Fn f)
+  {
+      if(!leaf->left)
+      {
+          parcoursSymetrique(leaf->left, f);
+          f(leaf->key);
+          parcoursSymetrique(leaf->right, f);
+      }
+     
+      
+      
   }
   
   //
