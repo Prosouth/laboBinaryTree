@@ -178,20 +178,20 @@ private:
   {
     if (r == nullptr)
     {
-		r = new Node(key);
-	}
-	else if (key < r->key)
-	{
-		insert(r->left, key);
-	}
-	else if (key > r->key)
-	{
-		insert(r->right, key);
-	}
-	else
-	{
-		return false;
-	}
+        r = new Node(key);
+    }
+    else if (key < r->key)
+    {
+        insert(r->left, key);
+    }
+    else if (key > r->key)
+    {
+        insert(r->right, key);
+    }
+    else
+    {
+        return false;
+    }
 	
     return true;
   }
@@ -596,3 +596,9 @@ public:
     }
   }
 };
+
+
+int main()
+{
+    return EXIT_SUCCESS;
+}
