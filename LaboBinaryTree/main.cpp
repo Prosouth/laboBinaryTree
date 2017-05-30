@@ -583,7 +583,7 @@ public:
           parcoursPostOrdonne(leaf->left, f);
       }
       
-      if(leaf.right != nullptr)
+      if(leaf->right != nullptr)
       {
           parcoursPostOrdonne(leaf->right, f);
       }
