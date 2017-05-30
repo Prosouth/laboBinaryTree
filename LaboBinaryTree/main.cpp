@@ -276,7 +276,34 @@ public:
   //
   void deleteMin() 
   {
+<<<<<<< HEAD
       delete removeMinAndReturnIt(_root);
+=======
+<<<<<<< HEAD
+      delete removeMinAndReturnIt(_root);
+=======
+    if (_root == nullptr)
+    {
+		throw std::logic_error("logic_error_deleteMin");
+	}
+
+    Node* tmpNode = _root;
+
+	while (tmpNode->left != nullptr)
+	{
+        Node* delNode = tmpNode->left;
+        if (delNode->left == nullptr)
+        {
+            tmpNode->left = delNode->right;
+            delete delNode;
+        }
+        else
+        {
+            tmpNode = tmpNode->left;
+        }
+	}
+>>>>>>> 69eedc9a66bb964cba132a72276ca510060349c3
+>>>>>>> 73011cd8e2b8e89ce40a53d083474ec61f8c27f2
   }
   
   static Node* removeMinAndReturnIt(Node* r){
@@ -357,11 +384,19 @@ private:
             }
             else 
             {  
+<<<<<<< HEAD
                Node* tmpNode = r;
                r = removeMinAndReturnIt(r->right);
                r->left = tmpNode->left;
                r->right = tmpNode->right;
                delete tmpNode;
+=======
+               Node* tmp = r;
+               r = removeMinAndReturnIt(r->right);
+               r->left = tmp->left;
+               r->right = tmp->right;
+               delete tmp;
+>>>>>>> 73011cd8e2b8e89ce40a53d083474ec61f8c27f2
             }
 
          return true;
@@ -560,7 +595,7 @@ public:
     string l1, l2;
     
     size_t W = 11;
-    while( getline(ss3,l1) )
+    while( getline(ss3,l1))
       if (l1.length() > W) W = l1.length();
 
     displayKeys(ss1);
@@ -617,4 +652,3 @@ public:
     }
   }
 };
-
