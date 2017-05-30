@@ -290,11 +290,13 @@ public:
       {
          cur = cur->left;
       }
-      Node *cur_left = cur->left;
+      Node* cur_left = cur->left;
+      
       if (cur_left->right != nullptr) 
       {
          cur->left = cur_left->right;
-      } else 
+      } 
+      else 
       {
          cur->left = nullptr;
       }
