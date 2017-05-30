@@ -280,9 +280,9 @@ public:
   }
   
   static Node* RemoveMinAndReturnIt(Node* r){
-      if (r == nullptr) 
+      if (!r) 
       {
-         throw logic_error("Error: _root = nullptr in deleteMin()");
+         throw logic_error("_root est à nullptr");
       }
 
       Node *current = r;
