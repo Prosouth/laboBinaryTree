@@ -277,7 +277,26 @@ public:
   //
   void deleteMin() 
   {
-      deleteElement(min());
+    if (_root == nullptr)
+    {
+		throw std::logic_error("logic_error_deleteMin");
+	}
+
+    Node* tmpNode = _root;
+
+	while (tmpNode->left != nullptr)
+	{
+        Node* delNode = tmpNode->left;
+        if (delNode->left == nullptr)
+        {
+            tmpNode->left = delNode->right;
+            delete delNode;
+        }
+        else
+        {
+            tmpNode = tmpNode->left;
+        }
+	}
   }
   
   
@@ -596,9 +615,3 @@ public:
     }
   }
 };
-
-
-int main()
-{
-    return EXIT_SUCCESS;
-}
