@@ -276,10 +276,10 @@ public:
   //
   void deleteMin() 
   {
-      delete RemoveMinAndReturnIt(_root);
+      delete removeMinAndReturnIt(_root);
   }
   
-  static Node* RemoveMinAndReturnIt(Node* r){
+  static Node* removeMinAndReturnIt(Node* r){
       if (!r) 
       {
          throw logic_error("_root est à nullptr");
@@ -329,7 +329,6 @@ private:
   //
     static bool deleteElement(Node*& r, const_reference key) noexcept
     { 
-        
         if (!r) 
         {
             return false;
@@ -358,11 +357,11 @@ private:
             }
             else 
             {  
-               Node* tmp = r;
-               r = RemoveMinAndReturnIt(r->right);
-               r->left = tmp->left;
-               r->right = tmp->right;
-               delete tmp;
+               Node* tmpNode = r;
+               r = removeMinAndReturnIt(r->right);
+               r->left = tmpNode->left;
+               r->right = tmpNode->right;
+               delete tmpNode;
             }
 
          return true;
