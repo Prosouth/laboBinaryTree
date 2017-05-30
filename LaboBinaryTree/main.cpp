@@ -566,8 +566,29 @@ public:
   //          f(n->key);
   //
   template < typename Fn >
-  void visitPost (Fn f) {
-    /* ... */
+  void visitPost (Fn f) 
+  {
+      if(_root != nullptr)
+      {
+          parcoursPostOrdonne(_root, f);
+      }
+   
+  }
+  
+  template<typename Fn>
+  void parcoursPostOrdonne(Node *leaf, Fn f)
+  {
+      if(leaf->left != nullptr)
+      {
+          parcoursPostOrdonne(leaf->left, f);
+      }
+      
+      if(leaf.right != nullptr)
+      {
+          parcoursPostOrdonne(leaf->right, f);
+      }
+      
+      f(leaf->key);
   }
   
   
