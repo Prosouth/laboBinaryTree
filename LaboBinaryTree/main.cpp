@@ -179,6 +179,8 @@ private:
   //
   static bool insert(Node*& r, const_reference key) 
   {
+      // Il faut mettre à jour correctement nbElements dans cette fonction sans
+      // oublier de màj les noeuds supérieurs.
     if (r == nullptr)
     {
         r = new Node(key);
@@ -187,10 +189,12 @@ private:
     else if (key < r->key)
     {
         insert(r->left, key);
+        r->left->nbElements++;
     }
     else if (key > r->key)
     {
         insert(r->right, key);
+        r->right->nbElements++;
     }
     else
     {
