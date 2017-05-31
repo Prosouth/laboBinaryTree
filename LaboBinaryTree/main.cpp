@@ -3,7 +3,6 @@
 //
 //  Copyright (c) 2017 Olivier Cuisenaire. All rights reserved.
 //
-
 #include <cstdlib>
 #include <iostream>
 #include <sstream>
@@ -75,8 +74,9 @@ public:
    *  @param other le BinarySearchTree à copier
    *
    */
-  BinarySearchTree( BinarySearchTree& other ) {
-    /* ... */
+  BinarySearchTree( BinarySearchTree& other ) 
+  {
+      _root = nullptr;
   }
   
   /**
@@ -86,7 +86,7 @@ public:
    *
    */
   BinarySearchTree& operator= ( const BinarySearchTree& other ) {
-    /* ... */
+      
     return *this;
   }
   
@@ -107,7 +107,7 @@ public:
    *
    */
   BinarySearchTree( BinarySearchTree&& other ) noexcept {
-    /* ... */
+      _root = nullptr;
   }
   
   /**
@@ -127,7 +127,8 @@ public:
   // Ne pas modifier mais écrire la fonction
   // récursive privée deleteSubTree(Node*)
   //
-  ~BinarySearchTree() {
+  ~BinarySearchTree() 
+  {
     deleteSubTree( _root );
   }
   
@@ -138,12 +139,14 @@ private:
   // @param r la racine du sous arbre à détruire.
   //          peut éventuellement valoir nullptr
   //
-  static void deleteSubTree(Node* r) noexcept {
-      if(r != NULL)
+  static void deleteSubTree(Node* r) noexcept 
+  {
+      if(r)
       {
           deleteSubTree(r->left);
           deleteSubTree(r->right);
           delete r;
+          r->nbElements--;          
       }
   }
 
@@ -179,6 +182,7 @@ private:
     if (r == nullptr)
     {
         r = new Node(key);
+        r->nbElements++;
     }
     else if (key < r->key)
     {
@@ -279,7 +283,8 @@ public:
       delete removeMinAndReturnIt(_root);
   }
   
-  static Node* removeMinAndReturnIt(Node* leaf){
+  static Node* removeMinAndReturnIt(Node* leaf)
+  {
       if (!leaf) 
       {
          throw logic_error("std::Logic_error");
@@ -288,17 +293,18 @@ public:
       Node *cur = leaf;
       while (cur->left->left != nullptr) 
       {
-         cur = cur->left;
+          cur->nbElements--;
+          cur = cur->left;
       }
       Node* cur_left = cur->left;
       
       if (cur_left->right != nullptr) 
       {
-         cur->left = cur_left->right;
+          cur->left = cur_left->right;
       } 
       else 
       {
-         cur->left = nullptr;
+          cur->left = nullptr;         
       }
       
       return cur_left;
@@ -353,11 +359,13 @@ private:
             if (!r->right) 
             {
                delete r;
+               r->nbElements--;
                r = r->left;
             } 
             else if (!r->left) 
             {
                delete r;
+               r->nbElements--;
                r = r->right;
             }
             else 
