@@ -404,9 +404,13 @@ public:
   // ajoutez le code de gestion des exceptions, puis mettez en oeuvre
   // la fonction recursive nth_element(Node*, n)
   //
-  const_reference nth_element(size_t n) const {
-    /* ... */
-    return nth_element(_root,n);
+  const_reference nth_element(size_t n) const 
+  {
+      if(n >= _root->nbElements)
+      {
+          throw std::logic_error("logic_error_nth_element");
+      }
+      return nth_element(_root,n);
   }
   
 private:
@@ -419,10 +423,19 @@ private:
   // @return une reference a la cle en position n par ordre croissant des
   // elements
   //
-  static const_reference nth_element(Node* r, size_t n) noexcept {
-    assert(r != nullptr);
-    /* ... */
-    return -1;
+  static const_reference nth_element(Node* r, size_t n) noexcept 
+  {
+      assert(r != nullptr);
+      size_t s = r->left->nbElements;
+      if(r->nbElements < s)
+      {
+          return nth_element(r->left, n);
+      }
+      else if(r->nbElements > s)
+      {
+          return nth_element(r->right, n - s - 1);
+      }
+      return (const_reference)r;
   }
   
 public:
