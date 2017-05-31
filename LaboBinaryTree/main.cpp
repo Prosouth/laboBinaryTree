@@ -394,7 +394,7 @@ public:
   //
   size_t size() const noexcept 
   {
-      return 0;
+      return _root->nbElements;
   }
   
   static size_t size(Node* r) noexcept 
