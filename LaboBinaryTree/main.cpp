@@ -393,6 +393,9 @@ public:
     return 0;
   }
   
+  static size_t size(Node* r) noexcept { 
+      return r ? r->nbElements : 0;
+  }
   //
   // @brief cle en position n
   //
@@ -406,7 +409,7 @@ public:
   //
   const_reference nth_element(size_t n) const 
   {
-      if(n >= _root->nbElements)
+      if(n >= size(_root)) 
       {
           throw std::logic_error("logic_error_nth_element");
       }
@@ -426,12 +429,14 @@ private:
   static const_reference nth_element(Node* r, size_t n) noexcept 
   {
       assert(r != nullptr);
-      size_t s = r->left->nbElements;
-      if(r->nbElements < s)
+      
+      size_t s = size(r);
+      
+      if(n < s)
       {
           return nth_element(r->left, n);
       }
-      else if(r->nbElements > s)
+      else if(n > s)
       {
           return nth_element(r->right, n - s - 1);
       }
@@ -449,8 +454,9 @@ public:
   // Ne pas modifier mais écrire la fonction
   // récursive privée rank(Node*,const_reference)
   //
-  size_t rank(const_reference key) const noexcept {
-    return rank(_root,key);
+  size_t rank(const_reference key) const noexcept 
+  {
+        return rank(_root,key);
   }
   
 private:
@@ -462,9 +468,22 @@ private:
   //
   // @return la position entre 0 et size()-1, size_t(-1) si la cle est absente
   //
-  static size_t rank(Node* r, const_reference key) noexcept {
-    /* ... */
-    return -1;
+  static size_t rank(Node* r, const_reference key) noexcept 
+  {
+      if(r == nullptr)
+      {
+          return -1;
+      }
+      else if(r->key > key)
+      {
+          return rank(r->left, key);
+      }
+      else if(r->key < key)
+      {
+          return rank(r->right, key) ;//+ r->left->nbElements + 1;
+      }
+      
+        return r->left->nbElements;
   }
   
 public:
