@@ -14,7 +14,7 @@
 
 using namespace std;
 
-template < typename T >
+template <typename T>
 class BinarySearchTree {
 public:
   
@@ -211,7 +211,8 @@ public:
   // Ne pas modifier mais écrire la fonction
   // récursive privée contains(Node*,const_reference)
   //
-  bool contains( const_reference key ) const noexcept {
+  bool contains( const_reference key ) const noexcept 
+  {
     return contains(_root,key);
   }
   
@@ -224,7 +225,8 @@ private:
   //
   // @return vrai si la cle trouvee, faux sinon.
   //
-  static bool contains(Node* r, const_reference key) noexcept {
+  static bool contains(Node* r, const_reference key) noexcept 
+  {
     /* ... */
     if (r == nullptr)
     {
@@ -254,7 +256,8 @@ public:
   //
   // vous pouvez mettre en oeuvre de manière iterative ou recursive a choix
   //
-  const_reference min() const {
+  const_reference min() const 
+  {
 
     if (_root == nullptr)
     {
@@ -323,7 +326,8 @@ public:
   // Ne pas modifier mais écrire la fonction
   // récursive privée deleteElement(Node*&,const_reference)
   //
-  bool deleteElement( const_reference key) noexcept {
+  bool deleteElement( const_reference key) noexcept 
+  {
     return deleteElement( _root, key );
   }
   
@@ -388,12 +392,13 @@ public:
   //
   // @return le nombre d'elements de l'arbre
   //
-  size_t size() const noexcept {
-    /* ... */
-    return 0;
+  size_t size() const noexcept 
+  {
+      return 0;
   }
   
-  static size_t size(Node* r) noexcept { 
+  static size_t size(Node* r) noexcept 
+  { 
       return r ? r->nbElements : 0;
   }
   //
@@ -499,7 +504,8 @@ public:
   // fonction recursive linearize(Node*, Node*&, size_t&) utilisée par
   // la methode publique arborize
   //
-  void linearize() noexcept {
+  void linearize() noexcept 
+  {
     size_t cnt = 0;
     Node* list = nullptr;
     linearize(_root,list,cnt);
@@ -519,7 +525,8 @@ private:
   //             d'elements du sous-arbre de racine tree. Cependant, vous
   //             avez uniquement le droit d'utiliser l'opérateur ++.
   //
-  static void linearize(Node* tree, Node*& list, size_t& cnt) noexcept {
+  static void linearize(Node* tree, Node*& list, size_t& cnt) noexcept 
+  {
     /* ... */
   }
   
@@ -532,7 +539,8 @@ public:
   //
   // Ne pas modifier cette fonction.
   //
-  void balance() noexcept {
+  void balance() noexcept 
+  {
     size_t cnt = 0;
     Node* list = nullptr;
     linearize(_root,list,cnt);
@@ -552,7 +560,9 @@ private:
   // @param cnt  nombre d'elements de la liste que l'on doit utiliser pour
   //             arboriser le sous arbre
   //
-  static void arborize(Node*& tree, Node*& list, size_t cnt) noexcept {
+  static void arborize(Node*& tree, Node*& list, size_t cnt) noexcept 
+  {
+      
   }
   
 public:
@@ -563,7 +573,7 @@ public:
   //          en parametre. Pour le noeud n courrant, l'appel sera
   //          f(n->key);
   //
-  template < typename Fn >
+  template <typename Fn>
   void visitPre (Fn f) 
   {
       if(_root != nullptr)
@@ -658,7 +668,8 @@ public:
   // Les fonctions suivantes sont fournies pour permettre de tester votre classe
   // Merci de ne rien modifier au dela de cette ligne
   //
-  void display() const {
+  void display() const 
+  {
     stringstream ss1, ss2, ss3;
     displayKeys(ss1);
     displayKeys(ss3);
@@ -679,14 +690,15 @@ public:
       cout << "| "<< left << setw(W) << l1 << "| " << setw(W) << l2 << "|" << endl;
     }
     cout << "+-" << left << setfill('-') << setw(W) << "-" << "+-" << setw(W) << "-" << setfill(' ') << "+" << endl;
-
   }
   
-  void displayKeys(ostream& os = cout) const {
+  void displayKeys(ostream& os = cout) const 
+  {
     display([](Node* n) -> const_reference { return n->key; }, os);
   }
   
-  void displayCounts(ostream& os = cout) const {
+  void displayCounts(ostream& os = cout) const 
+  {
     display([](Node* n) -> size_t { return n->nbElements; }, os);
   }
   
@@ -696,7 +708,8 @@ public:
   // changements de niveaux
   //
   template <typename Fn>
-  void display (Fn func, ostream& os = cout ) const {
+  void display (Fn func, ostream& os = cout ) const 
+  {
     Node* newLevel = (Node*) -1;
     // addresse non nulle dont on est sur qu'elle ne contient pas
     // vraiment un Node. Utilisée comme sentinelle.
