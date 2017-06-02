@@ -184,23 +184,29 @@ private:
     if (r == nullptr)
     {
         r = new Node(key);
-        r->nbElements++;
     }
     else if (key < r->key)
     {
-        insert(r->left, key);
-        r->left->nbElements++;
+        
+        if(insert(r->left, key))
+        {
+            r->nbElements++;
+ 
+        }
+
     }
     else if (key > r->key)
     {
-        insert(r->right, key);
-        r->right->nbElements++;
+        if(insert(r->right, key))
+        {
+            r->nbElements++;
+
+        }
     }
     else
     {
         return false;
     }
-	
     return true;
   }
   
@@ -437,7 +443,7 @@ private:
   //
   static const_reference nth_element(Node* r, size_t n) noexcept 
   {
-      assert(r != nullptr);
+      //assert(r != nullptr);
       
       size_t s = size(r);
       
