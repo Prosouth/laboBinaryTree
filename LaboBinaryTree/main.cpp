@@ -179,28 +179,22 @@ private:
   //
   static bool insert(Node*& r, const_reference key) 
   {
-      // Il faut mettre à jour correctement nbElements dans cette fonction sans
-      // oublier de màj les noeuds supérieurs.
     if (r == nullptr)
     {
-        r = new Node(key);
+        r = new Node(key);      
     }
     else if (key < r->key)
-    {
-        
+    {    
         if(insert(r->left, key))
         {
             r->nbElements++;
- 
         }
-
     }
     else if (key > r->key)
     {
         if(insert(r->right, key))
         {
             r->nbElements++;
-
         }
     }
     else
@@ -443,7 +437,7 @@ private:
   //
   static const_reference nth_element(Node* r, size_t n) noexcept 
   {
-      //assert(r != nullptr);
+      assert(r != nullptr);
       
       size_t s = size(r);
       
