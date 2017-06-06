@@ -79,7 +79,22 @@ public:
   BinarySearchTree(BinarySearchTree& other) 
   {
       _root = nullptr;
+      copy(_root, other._root);
   }
+  
+  
+  void copy(Node *& r, Node *toCopy)
+  {
+        if (toCopy != nullptr)
+        {
+            r = new Node(toCopy->key);
+            r->nbElements = toCopy->nbElements;
+
+            copy(r->left, toCopy->left);
+            copy(r->right, toCopy->right);
+        }
+    }
+
   
   /**
    *  @brief Opérateur d'affectation par copie.
@@ -89,7 +104,7 @@ public:
    */
   BinarySearchTree& operator= ( const BinarySearchTree& other ) 
   {
-      
+      copy(_root,other._root);
     return *this;
   }
   
@@ -196,14 +211,14 @@ private:
     }
     else if (key < r->key)
     {    
-        if(insert(r->left, key))
+        if(!insert(r->left, key))
         {
             return false;
         }
     }
     else if (key > r->key)
     {
-        if(insert(r->right, key))
+        if(!insert(r->right, key))
         {
             return false;
         }
@@ -303,16 +318,23 @@ public:
   
   static Node* removeMinAndReturnIt(Node* leaf)
   {
-      if (!leaf) 
+      if (leaf == nullptr) 
       {
          throw logic_error("std::Logic_error");
       }
 
       Node *cur = leaf;
+      cur->nbElements--;
+      if (cur->left == nullptr) 
+      {
+          cur = cur->right;
+          return cur;
+      }
       while (cur->left->left != nullptr) 
       {
-          cur->nbElements--;
           cur = cur->left;
+          cur->nbElements--;
+          
       }
       Node* cur_left = cur->left;
       
@@ -510,8 +532,7 @@ private:
       {
           return rank(r->right, key) ;//+ r->left->nbElements + 1;
       }
-      
-        return r->left->nbElements;
+      return r->left->nbElements;
   }
   
 public:
