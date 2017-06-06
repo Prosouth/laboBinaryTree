@@ -526,23 +526,30 @@ private:
   //
   // @return la position entre 0 et size()-1, size_t(-1) si la cle est absente
   //
-  static size_t rank(Node* r, const_reference key) noexcept 
-  {
-      if(r == nullptr)
-      {
-          return -1;
-      }
-      else if(r->key > key)
-      {
-          return rank(r->left, key);
-      }
-      else if(r->key < key)
-      {
-          return rank(r->right, key) ;//+ r->left->nbElements + 1;
-      }
-      return r->left->nbElements;
-  }
-  
+  static size_t rank(Node* r, const_reference key) noexcept
+    {
+        if (r != nullptr) {
+            size_t resultat = 0;
+            if (key < r->key) {
+                resultat = rank(r->left, key);
+                if (resultat != -1) {
+                    return resultat;
+                }
+            } else if (key > r->key) {
+                resultat = rank(r->right, key);
+                if (resultat != -1) {
+                    size_t nbElementLeft = r->left == nullptr ? 0 : r->left->nbElements;
+                    return resultat + nbElementLeft + 1;
+                }
+            } else {
+                size_t nbElementLeft = r->left == nullptr ? 0 : r->left->nbElements;
+                return nbElementLeft;
+            }
+        } else {
+            return size_t(-1);
+        }
+        return size_t(-1);
+    }
 public:
   //
   // @brief linearise l'arbre
