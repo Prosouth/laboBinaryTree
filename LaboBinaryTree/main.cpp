@@ -61,14 +61,7 @@ public:
    *  @brief Constructeur par défaut. Construit un arbre vide
    */
   BinarySearchTree() : _root(nullptr)
-  {
-    /* ... */
-    /*
-    Node* nouvelArbre = new Node(_root);
-    nbElements = 1;
-    right = left = nullptr;
-    */
-  }
+  { }
   
   /**
    *  @brief Constucteur de copie.
@@ -83,7 +76,7 @@ public:
   }
   
   
-  void copy(Node *& r, Node *toCopy)
+  void copy(Node *& r, Node *toCopy) // A COMMENTER
   {
         if (toCopy != nullptr)
         {
@@ -119,7 +112,6 @@ public:
       Node* tmp = other._root;
       other._root = _root;
       _root = tmp;
-      free(tmp);
   }
   
   /**
@@ -334,7 +326,6 @@ public:
       {
           cur = cur->left;
           cur->nbElements--;
-          
       }
       Node* cur_left = cur->left;
       
@@ -380,46 +371,63 @@ private:
   // retourne vrai
   //
     static bool deleteElement(Node*& r, const_reference key) noexcept
-    { 
-        if (!r) 
+    {
+        if (r == nullptr) 
         {
             return false;
-        }
-
-        if (r->key > key)
-        {
-           deleteElement(r->left, key);
-
         } 
-        else if (r->key < key) 
+        else 
         {
-           deleteElement(r->right, key);
-        }
-        else
-        {  
-            if (!r->right) 
+            if (r->key > key) 
             {
-               delete r;
-               r->nbElements--;
-               r = r->left;
+                if(deleteElement(r->left, key))
+                {
+                    r->nbElements--;
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else if (r->key < key) 
+            {
+                if(deleteElement(r->right, key))
+                {
+                    r->nbElements--;
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             } 
-            else if (!r->left) 
-            {
-               delete r;
-               r->nbElements--;
-               r = r->right;
-            }
             else 
-            {  
-               Node* tmp = r;
-               r = removeMinAndReturnIt(r->right);
-               r->left = tmp->left;
-               r->right = tmp->right;
-               delete tmp;
+            {
+                if (!r->right) 
+                {
+                    delete r;
+                    r = r->left;
+                    r->nbElements--;
+                }
+                else if (!r->left) 
+                {
+                    delete r;
+                    r->nbElements--;
+                    r = r->right;
+                } 
+                else 
+                {
+                    Node* tmp = r;
+                    r = removeMinAndReturnIt(r->right);
+                    r->nbElements = tmp->nbElements - 1;
+                    r->left = tmp->left;
+                    r->right = tmp->right;
+                    delete tmp;
+                }
+                return true;
             }
-
-         return true;
-         }
+        }
    }
 
   
