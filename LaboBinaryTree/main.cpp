@@ -274,7 +274,6 @@ public:
   //
   const_reference min() const 
   {
-
     if (_root == nullptr)
     {
         throw std::logic_error("logic_error_min");
@@ -430,7 +429,7 @@ public:
   //
   const_reference nth_element(size_t n) const 
   {
-      if(n >= size(_root)) 
+      if(n > size(_root)) 
       {
           throw std::logic_error("logic_error_nth_element");
       }
@@ -449,19 +448,27 @@ private:
   //
   static const_reference nth_element(Node* r, size_t n) noexcept 
   {
-      //assert(r != nullptr);
-      
-      size_t s = size(r);
-      
-      if(n < s)
+      if (r != nullptr) 
       {
-          return nth_element(r->left, n);
+          size_t s = 0;
+          if (r->left != nullptr) 
+          {
+              s = r->left->nbElements;
+          }
+          if (n < s) 
+          {
+              return nth_element(r->left, n);
+          } 
+          else if (n > s) 
+          {
+              return nth_element(r->right, n - s - 1);
+          } 
+          else 
+          {
+              return r->key;
+          }
       }
-      else if(n > s)
-      {
-          return nth_element(r->right, n - s - 1);
-      }
-      return (const_reference)r;
+      return -1;
   }
   
 public:
@@ -477,7 +484,7 @@ public:
   //
   size_t rank(const_reference key) const noexcept 
   {
-        return rank(_root,key);
+        return rank(_root, key);
   }
   
 private:
