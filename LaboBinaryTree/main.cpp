@@ -15,7 +15,8 @@
 using namespace std;
 
 template <typename T>
-class BinarySearchTree {
+class BinarySearchTree 
+{
 public:
   
   using value_type = T;
@@ -28,7 +29,8 @@ private:
    *
    * contient une cle et les liens vers les sous-arbres droit et gauche.
    */
-  struct Node {
+  struct Node 
+  {
     const value_type key; // clé non modifiable
     Node* right;          // sous arbre avec des cles plus grandes
     Node* left;           // sous arbre avec des cles plus petites
@@ -74,7 +76,7 @@ public:
    *  @param other le BinarySearchTree à copier
    *
    */
-  BinarySearchTree( BinarySearchTree& other ) 
+  BinarySearchTree(BinarySearchTree& other) 
   {
       _root = nullptr;
   }
@@ -85,7 +87,8 @@ public:
    *  @param other le BinarySearchTree à copier
    *
    */
-  BinarySearchTree& operator= ( const BinarySearchTree& other ) {
+  BinarySearchTree& operator= ( const BinarySearchTree& other ) 
+  {
       
     return *this;
   }
@@ -96,8 +99,12 @@ public:
    *  @param other le BST avec lequel on echange le contenu
    *
    */
-  void swap(BinarySearchTree& other ) noexcept {
-    /* ... */
+  void swap(BinarySearchTree& other ) noexcept 
+  {
+      Node* tmp = other._root;
+      other._root = _root;
+      _root = tmp;
+      free(tmp);
   }
   
   /**
@@ -106,8 +113,10 @@ public:
    *  @param other le BST dont on vole le contenu
    *
    */
-  BinarySearchTree( BinarySearchTree&& other ) noexcept {
-      _root = nullptr;
+  BinarySearchTree(BinarySearchTree&& other) noexcept 
+  {
+      _root = other._root;
+      other._root = nullptr;
   }
   
   /**
@@ -117,8 +126,9 @@ public:
    *
    */
   BinarySearchTree& operator= ( BinarySearchTree&& other ) noexcept {
-    /* ... */
-    return *this;
+      _root = other._root;
+      other._root = nullptr;
+      return *this;
   }
   
   //
@@ -181,26 +191,28 @@ private:
   {
     if (r == nullptr)
     {
-        r = new Node(key);      
+        r = new Node(key); 
+        return true;
     }
     else if (key < r->key)
     {    
         if(insert(r->left, key))
         {
-            r->nbElements++;
+            return false;
         }
     }
     else if (key > r->key)
     {
         if(insert(r->right, key))
         {
-            r->nbElements++;
+            return false;
         }
     }
     else
     {
         return false;
     }
+    r->nbElements++;
     return true;
   }
   
@@ -231,23 +243,23 @@ private:
   //
   static bool contains(Node* r, const_reference key) noexcept 
   {
-    /* ... */
-    if (r == nullptr)
-    {
-        return false;
-    }
-    else if (key < r->key)
-    {
-        contains(r->left, key);
-    }
-    else if (key > r->key)
-    {
-        contains(r->right, key);
-    }
-    else
-    {
-        return true;
-    }
+      
+      if (r == nullptr)
+      {
+          return false;
+      }
+      else if (key < r->key)
+      {
+          contains(r->left, key);
+      }
+      else if (key > r->key)
+      {
+          contains(r->right, key);
+      }
+      else
+      {
+          return true;
+      }
   }
   
 public:
@@ -437,7 +449,7 @@ private:
   //
   static const_reference nth_element(Node* r, size_t n) noexcept 
   {
-      assert(r != nullptr);
+      //assert(r != nullptr);
       
       size_t s = size(r);
       
@@ -648,7 +660,6 @@ public:
       {
           parcoursPostOrdonne(_root, f);
       }
-   
   }
   
   template<typename Fn>
@@ -740,3 +751,9 @@ public:
     }
   }
 };
+
+
+int main()
+{
+    return EXIT_SUCCESS;
+}
