@@ -72,19 +72,19 @@ public:
   BinarySearchTree(BinarySearchTree& other) 
   {
       _root = nullptr;
-      copy(_root, other._root);
+      copyNodes(_root, other._root);
   }
   
   
-  void copy(Node *& r, Node *toCopy) // A COMMENTER
+  void copyNodes(Node *& r, Node *rToCopy)
   {
-        if (toCopy != nullptr)
+        if (rToCopy)
         {
-            r = new Node(toCopy->key);
-            r->nbElements = toCopy->nbElements;
+            r = new Node(rToCopy->key);
+            r->nbElements = rToCopy->nbElements;
 
-            copy(r->left, toCopy->left);
-            copy(r->right, toCopy->right);
+            copyNodes(r->left, rToCopy->left);
+            copyNodes(r->right, rToCopy->right);
         }
     }
 
@@ -97,8 +97,8 @@ public:
    */
   BinarySearchTree& operator= ( const BinarySearchTree& other ) 
   {
-      copy(_root,other._root);
-    return *this;
+      copyNodes(_root,other._root);
+      return *this;
   }
   
   /**
@@ -196,7 +196,7 @@ private:
   //
   static bool insert(Node*& r, const_reference key) 
   {
-    if (r == nullptr)
+    if (!r)
     {
         r = new Node(key); 
         return true;
@@ -250,8 +250,7 @@ private:
   //
   static bool contains(Node* r, const_reference key) noexcept 
   {
-      
-      if (r == nullptr)
+      if (!r)
       {
           return false;
       }
@@ -317,19 +316,19 @@ public:
 
       Node *cur = leaf;
       cur->nbElements--;
-      if (cur->left == nullptr) 
+      if (!cur->left) 
       {
           cur = cur->right;
           return cur;
       }
-      while (cur->left->left != nullptr) 
+      while (cur->left->left) 
       {
           cur = cur->left;
           cur->nbElements--;
       }
       Node* cur_left = cur->left;
       
-      if (cur_left->right != nullptr) 
+      if (cur_left->right) 
       {
           cur->left = cur_left->right;
       } 
@@ -372,53 +371,47 @@ private:
   //
     static bool deleteElement(Node*& r, const_reference key) noexcept
     {
-        if (r == nullptr) 
+        if (r) 
         {
-            return false;
-        } 
-        else 
-        {
-            if (r->key > key) 
-            {
-                if(deleteElement(r->left, key))
+            if (key < r->key) // key recherchée inférieure au noeud actuel, on va
+            { // chercher à gauche
+                if (deleteElement(r->left, key)) // si on trouve la clé
                 {
                     r->nbElements--;
                     return true;
-                }
-                else
+                } 
+                else 
                 {
                     return false;
                 }
-            }
-            else if (r->key < key) 
-            {
-                if(deleteElement(r->right, key))
+            } 
+            else if (key > r->key) // key recherchée supérieure au noeud actuel, on
+            { // va vers la droite
+                if (deleteElement(r->right, key)) // si on a trouvé la clé
                 {
                     r->nbElements--;
                     return true;
-                }
-                else
+                } 
+                else 
                 {
                     return false;
                 }
             } 
             else 
-            {
-                if (!r->right) 
+            { 
+                if (!r->right) // on a la key
                 {
                     delete r;
                     r = r->left;
-                    r->nbElements--;
-                }
+                } 
                 else if (!r->left) 
                 {
                     delete r;
-                    r->nbElements--;
                     r = r->right;
                 } 
-                else 
+                else // algo de suppression de Hibbard
                 {
-                    Node* tmp = r;
+                    Node *tmp = r;
                     r = removeMinAndReturnIt(r->right);
                     r->nbElements = tmp->nbElements - 1;
                     r->left = tmp->left;
@@ -427,10 +420,13 @@ private:
                 }
                 return true;
             }
+        } 
+        else 
+        { 
+            return false;
         }
-   }
-
-  
+    }
+    
 public:
   //
   // @brief taille de l'arbre
@@ -478,10 +474,10 @@ private:
   //
   static const_reference nth_element(Node* r, size_t n) noexcept 
   {
-      if (r != nullptr) 
+      if (r) 
       {
           size_t s = 0;
-          if (r->left != nullptr) 
+          if (r->left) 
           {
               s = r->left->nbElements;
           }
@@ -528,27 +524,51 @@ private:
   //
   static size_t rank(Node* r, const_reference key) noexcept
     {
-        if (r != nullptr) {
-            size_t resultat = 0;
-            if (key < r->key) {
-                resultat = rank(r->left, key);
-                if (resultat != -1) {
-                    return resultat;
+        size_t nbElementCmp;
+        if (r) 
+        {
+            size_t s = 0;
+            if (key < r->key) 
+            {
+                s = rank(r->left, key);
+                if (s != -1) 
+                {
+                    return s;
                 }
-            } else if (key > r->key) {
-                resultat = rank(r->right, key);
-                if (resultat != -1) {
-                    size_t nbElementLeft = r->left == nullptr ? 0 : r->left->nbElements;
-                    return resultat + nbElementLeft + 1;
+            } 
+            else if (key > r->key) 
+            {
+                s = rank(r->right, key);
+                if (s != -1) {
+                    if (!r->left) 
+                    {
+                        nbElementCmp = 0;
+                    } 
+                    else 
+                    {
+                        nbElementCmp = r->left->nbElements;
+                    }
+                    return s + nbElementCmp + 1;
                 }
-            } else {
-                size_t nbElementLeft = r->left == nullptr ? 0 : r->left->nbElements;
-                return nbElementLeft;
             }
-        } else {
-            return size_t(-1);
+            else 
+            {
+                if (!r->left) 
+                {
+                    nbElementCmp = 0;
+                }
+                else 
+                {
+                    nbElementCmp = r->left->nbElements;
+                }
+                return nbElementCmp;
+            }
+        } 
+        else 
+        {
+            return -1;
         }
-        return size_t(-1);
+        return -1;
     }
 public:
   //
