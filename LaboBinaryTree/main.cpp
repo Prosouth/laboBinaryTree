@@ -606,7 +606,22 @@ private:
   //
   static void linearize(Node* tree, Node*& list, size_t& cnt) noexcept 
   {
-    /* ... */
+      // Parcours symétrique inverse pour les mettre dans une liste
+      // sans oublier de mettre l'élément de gauche à nul sous peine
+      // de créer une boucle infinie
+      if(leaf->right != nullptr)
+      {
+          parcoursSymetrique(leaf->right, f);
+      }
+     
+      f(leaf->key);
+      
+      if(leaf->left != nullptr)
+      {
+          parcoursSymetrique(leaf->left, f);
+      }
+      
+      
   }
   
 public:
