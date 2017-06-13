@@ -609,19 +609,25 @@ private:
       // Parcours symétrique inverse pour les mettre dans une liste
       // sans oublier de mettre l'élément de gauche à nul sous peine
       // de créer une boucle infinie
-      if(leaf->right != nullptr)
-      {
-          parcoursSymetrique(leaf->right, f);
-      }
-     
-      f(leaf->key);
       
-      if(leaf->left != nullptr)
+      Node* head_tmp = tree;
+      
+      while (tree->right)
       {
-          parcoursSymetrique(leaf->left, f);
+          
+          
+          tree = tree->right;
       }
       
+ 
       
+      
+  }
+  
+  static void push_front(Node*& list) 
+  {  
+      // Si pas assez de mémoire, bad_alloc est automatiquement lancé
+        new Node(list);
   }
   
 public:
