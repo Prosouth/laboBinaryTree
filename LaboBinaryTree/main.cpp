@@ -71,14 +71,22 @@ public:
    */
   BinarySearchTree(BinarySearchTree& other) 
   {
-      _root = nullptr;
-      copyNodes(_root, other._root);
+      try
+      {
+        _root = nullptr;
+        copyNodes(_root, other._root);  
+      }
+      catch(...)
+      {
+        other.deleteSubTree(_root);
+        throw;
+      }
   }
   
   
   void copyNodes(Node *& r, Node *rToCopy)
   {
-        if (rToCopy)
+        if (rToCopy) 
         {
             r = new Node(rToCopy->key);
             r->nbElements = rToCopy->nbElements;
@@ -95,10 +103,21 @@ public:
    *  @param other le BinarySearchTree à copier
    *
    */
-  BinarySearchTree& operator= ( const BinarySearchTree& other ) 
+  BinarySearchTree& operator=(const BinarySearchTree& other) 
   {
-      copyNodes(_root,other._root);
-      return *this;
+        Node* tmp;
+        try 
+        {
+
+            copyNodes(tmp, other._root);
+            deleteSubTree(_root);
+            _root = tmp;
+        } catch (...) 
+        {
+            deleteSubTree(tmp);
+            throw;
+        }
+        return *this;
   }
   
   /**
@@ -132,10 +151,13 @@ public:
    *  @param other le BST dont on vole le contenu
    *
    */
-  BinarySearchTree& operator= ( BinarySearchTree&& other ) noexcept {
-      _root = other._root;
-      other._root = nullptr;
-      return *this;
+  BinarySearchTree& operator= ( BinarySearchTree&& other ) noexcept 
+{
+        Node* tmp = _root;
+        _root = other._root;
+        deleteSubTree(tmp);
+        other._root = nullptr;
+        return *this;
   }
   
   //
@@ -662,13 +684,13 @@ private:
         Node *subTreeL; 
         if (cnt > 0)
         {
-            size_t cntL = --cnt / 2; // pour compteur pour le s-a gauche
+            size_t cntL = (cnt - 1) / 2; // pour compteur pour le s-a gauche
             size_t cntR = cnt - cntL; // pour compteur pour le s-a droite
             arborize(subTreeL, list, cntL); 
             tree = list; 
             list = list->right;
             arborize(subTreeR, list, cntR); 
-            tree->nbElements = cntL + cntR + 2; // + 2 à cause du --cnt
+            tree->nbElements = cntL + cntR + 1; // + 2 à cause du --cnt
             tree->right = subTreeR;
             tree->left = subTreeL; 
         } 
@@ -848,7 +870,6 @@ public:
     }
   }
 };
-
 
 int main()
 {
