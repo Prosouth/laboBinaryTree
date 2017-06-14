@@ -609,24 +609,20 @@ private:
       // Parcours symétrique inverse pour les mettre dans une liste
       // sans oublier de mettre l'élément de gauche à nul sous peine
       // de créer une boucle infinie
-      
-      Node* head_tmp = tree;
-      
-      while (tree->right)
+      if(tree)
       {
-          
-          
-          tree = tree->right;
+          linearize(tree->right, list, cnt); // on va à l'élément plus à droite
+          tree->right = list; // sauve la liste dans l'élément suivant
+          list = tree; // affecte l'arbre courant à la liste
+          cnt++; 
+          list->nbElements = cnt; // nbElement s'incrémente vu qu'on vient de relier un nouveau noeud
+          linearize(tree->left, list, cnt);
+          tree->left = nullptr; // on détache à gauche
       }
-      
- 
-      
-      
   }
   
   static void push_front(Node*& list) 
   {  
-      // Si pas assez de mémoire, bad_alloc est automatiquement lancé
         new Node(list);
   }
   
@@ -660,10 +656,27 @@ private:
   // @param cnt  nombre d'elements de la liste que l'on doit utiliser pour
   //             arboriser le sous arbre
   //
-  static void arborize(Node*& tree, Node*& list, size_t cnt) noexcept 
-  {
-      
-  }
+    static void arborize(Node *& tree, Node *& list, size_t cnt) noexcept 
+    {
+        Node *subTreeR;
+        Node *subTreeL; 
+        if (cnt > 0)
+        {
+            size_t cntL = --cnt / 2; // pour compteur pour le s-a gauche
+            size_t cntR = cnt - cntL; // pour compteur pour le s-a droite
+            arborize(subTreeL, list, cntL); 
+            tree = list; 
+            list = list->right;
+            arborize(subTreeR, list, cntR); 
+            tree->nbElements = cntL + cntR + 2; // + 2 à cause du --cnt
+            tree->right = subTreeR;
+            tree->left = subTreeL; 
+        } 
+        else 
+        {
+            tree = nullptr;
+        }
+    }
   
 public:
   //
