@@ -59,6 +59,7 @@ private:
 public:
   /**
    *  @brief Constructeur par défaut. Construit un arbre vide
+   *  @remark Complexité O(1)
    */
   BinarySearchTree() : _root(nullptr)
   { }
@@ -67,6 +68,7 @@ public:
    *  @brief Constucteur de copie.
    *
    *  @param other le BinarySearchTree à copier
+   *  @remark Complexité O(n)
    *
    */
   BinarySearchTree(BinarySearchTree& other) 
@@ -101,7 +103,7 @@ public:
    *  @brief Opérateur d'affectation par copie.
    *
    *  @param other le BinarySearchTree à copier
-   *
+   *  @remark Compexité en moyenne en O(n)
    */
   BinarySearchTree& operator=(const BinarySearchTree& other) 
   {
@@ -124,7 +126,7 @@ public:
    *  @brief Echange le contenu avec un autre BST
    *
    *  @param other le BST avec lequel on echange le contenu
-   *
+   *  @remark Compexité en moyenne en O(1)
    */
   void swap(BinarySearchTree& other ) noexcept 
   {
@@ -137,6 +139,7 @@ public:
    *  @brief constructeur de copie par déplacement
    *
    *  @param other le BST dont on vole le contenu
+    @remark Compexité en O(1)
    *
    */
   BinarySearchTree(BinarySearchTree&& other) noexcept 
@@ -149,7 +152,7 @@ public:
    *  @brief Opérateur d'affectation par déplacement.
    *
    *  @param other le BST dont on vole le contenu
-   *
+   * @remark Compexité en moyenne en O(n)
    */
   BinarySearchTree& operator= ( BinarySearchTree&& other ) noexcept 
 {
@@ -162,7 +165,7 @@ public:
   
   //
   // @brief Destructeur
-  //
+  // @remark Compexité en moyenne en O(n)
   // Ne pas modifier mais écrire la fonction
   // récursive privée deleteSubTree(Node*)
   //
@@ -177,7 +180,7 @@ private:
   //
   // @param r la racine du sous arbre à détruire.
   //          peut éventuellement valoir nullptr
-  //
+  // @remark Compexité en moyenne en O(n)
   static void deleteSubTree(Node* r) noexcept 
   {
       if(r)
@@ -197,7 +200,7 @@ public:
   //
   // Ne pas modifier mais écrire la fonction
   // récursive privée insert(Node*&,const_reference)
-  //
+  // @remark Complexité en O(h) où h est la hauteur de l’arbre, en moyenne O(log(n)), au pire O(n) si l’arbre est dégénéré
   void insert( const_reference key) {
     insert(_root,key);
   }
@@ -211,7 +214,7 @@ private:
   // @param key la clé à insérer.
   //
   // @return vrai si la cle est inseree. faux si elle etait deja presente.
-  //
+  // @remark Complexité en O(h) où h est la hauteur de l’arbre, en moyenne O(log(n)), au pire O(n) si l’arbre est dégénéré
   // Si la cle est deja presente, cette fonction ne fait rien.
   // x peut éventuellement valoir nullptr en entrée.
   // la fonction peut modifier x, reçu par référence, si nécessaire
@@ -252,6 +255,7 @@ public:
   // @param key la cle a rechercher
   //
   // @return vrai si la cle trouvee, faux sinon.
+  // @remark Complexité en O(h) où h est la hauteur de l’arbre, en moyenne O(log(n)), au pire O(n) si l’arbre est dégénéré
   //
   // Ne pas modifier mais écrire la fonction
   // récursive privée contains(Node*,const_reference)
@@ -267,7 +271,7 @@ private:
   //
   // @param key la cle a rechercher
   // @param r   la racine du sous-arbre
-  //
+  // @remark Complexité en O(h) où h est la hauteur de l’arbre, en moyenne O(log(n)), au pire O(n) si l’arbre est dégénéré
   // @return vrai si la cle trouvee, faux sinon.
   //
   static bool contains(Node* r, const_reference key) noexcept 
@@ -297,7 +301,7 @@ public:
   // @return une const reference a la cle minimale
   //
   // @exception std::logic_error si necessaire
-  //
+  // @remark Complexité en O(h) où h est la hauteur de l’arbre, en moyenne O(log(n)), au pire O(n) si l’arbre est dégénéré
   // vous pouvez mettre en oeuvre de manière iterative ou recursive a choix
   //
   const_reference min() const 
@@ -323,7 +327,7 @@ public:
   // @exception std::logic_error si necessaire
   //
   // vous pouvez mettre en oeuvre de manière iterative ou recursive a choix
-  //
+  // @remark Compexité en moyenne en O(log(n))
   void deleteMin() 
   {
       delete removeMinAndReturnIt(_root);
@@ -367,7 +371,7 @@ public:
   // @brief Supprime l'element de cle key de l'arbre.
   //
   // @param key l'element a supprimer
-  //
+  // @remark Complexité en O(h) où h est la hauteur de l’arbre, en moyenne O(log(n)), au pire O(n) si l’arbre est dégénéré
   // si l'element n'est pas present, la fonction ne modifie pas
   // l'arbre mais retourne false. Si l'element est present, elle
   // retourne vrai
@@ -386,11 +390,10 @@ private:
   //
   // @param r la racine du sous arbre
   // @param key l'element a supprimer
-  //
+  // @remark Complexité en O(h) où h est la hauteur de l’arbre, en moyenne O(log(n)), au pire O(n) si l’arbre est dégénéré
   // si l'element n'est pas present, la fonction ne modifie pas
   // l'arbre mais retourne false. Si l'element est present, elle
   // retourne vrai
-  //
     static bool deleteElement(Node*& r, const_reference key) noexcept
     {
         if (r) 
@@ -454,7 +457,7 @@ public:
   // @brief taille de l'arbre
   //
   // @return le nombre d'elements de l'arbre
-  //
+  // @remark Compexité en moyenne en O(1)
   size_t size() const noexcept 
   {
       return _root->nbElements;
@@ -474,7 +477,7 @@ public:
   //
   // ajoutez le code de gestion des exceptions, puis mettez en oeuvre
   // la fonction recursive nth_element(Node*, n)
-  //
+  // @remark Compexité en O(n)
   const_reference nth_element(size_t n) const 
   {
       if(n > size(_root)) 
@@ -493,7 +496,7 @@ private:
   //
   // @return une reference a la cle en position n par ordre croissant des
   // elements
-  //
+  // @remark Compexité en O(n)
   static const_reference nth_element(Node* r, size_t n) noexcept 
   {
       if (r) 
@@ -529,7 +532,7 @@ public:
   //
   // Ne pas modifier mais écrire la fonction
   // récursive privée rank(Node*,const_reference)
-  //
+  // @remark Complexité en O(h) où h est la hauteur de l’arbre, en moyenne O(log(n)), au pire O(n) si l’arbre est dégénéré
   size_t rank(const_reference key) const noexcept 
   {
         return rank(_root, key);
@@ -537,14 +540,14 @@ public:
   
 private:
   //
-  // @brief position d'une cle dans l'ordre croissant des elements du sous-arbre
-  //
-  // @param key la cle dont on cherche le rang
-  // @param r la racine du sous arbre
-  //
-  // @return la position entre 0 et size()-1, size_t(-1) si la cle est absente
-  //
-  static size_t rank(Node* r, const_reference key) noexcept
+    // @brief position d'une cle dans l'ordre croissant des elements du sous-arbre
+    //
+    // @param key la cle dont on cherche le rang
+    // @param r la racine du sous arbre
+    //
+    // @return la position entre 0 et size()-1, size_t(-1) si la cle est absente
+    // @remark Complexité en O(h) où h est la hauteur de l’arbre, en moyenne O(log(n)), au pire O(n) si l’arbre est dégénéré
+    static size_t rank(Node* r, const_reference key) noexcept 
     {
         size_t nbElementCmp;
         if (r) 
@@ -557,15 +560,16 @@ private:
                 {
                     return s;
                 }
-            } 
+            }
             else if (key > r->key) 
             {
                 s = rank(r->right, key);
-                if (s != -1) {
+                if (s != -1) 
+                {
                     if (!r->left) 
                     {
                         nbElementCmp = 0;
-                    } 
+                    }
                     else 
                     {
                         nbElementCmp = r->left->nbElements;
@@ -592,6 +596,7 @@ private:
         }
         return -1;
     }
+    
 public:
   //
   // @brief linearise l'arbre
@@ -604,7 +609,7 @@ public:
   // Ne pas modifier cette fonction qui sert essentiellement a tester la
   // fonction recursive linearize(Node*, Node*&, size_t&) utilisée par
   // la methode publique arborize
-  //
+  // @remark Complexité en O(n)
   void linearize() noexcept 
   {
     size_t cnt = 0;
@@ -625,7 +630,7 @@ private:
   //             cree. l'effet de la fonction doit etre d'ajouter le nombre
   //             d'elements du sous-arbre de racine tree. Cependant, vous
   //             avez uniquement le droit d'utiliser l'opérateur ++.
-  //
+  // @remark Compexité en O(n)
   static void linearize(Node* tree, Node*& list, size_t& cnt) noexcept 
   {
       // Parcours symétrique inverse pour les mettre dans une liste
@@ -643,10 +648,6 @@ private:
       }
   }
   
-  static void push_front(Node*& list) 
-  {  
-        new Node(list);
-  }
   
 public:
   //
@@ -656,7 +657,7 @@ public:
   // arborisation
   //
   // Ne pas modifier cette fonction.
-  //
+  // @remark Complexité O(n)
   void balance() noexcept 
   {
     size_t cnt = 0;
@@ -677,7 +678,7 @@ private:
   //                   elements
   // @param cnt  nombre d'elements de la liste que l'on doit utiliser pour
   //             arboriser le sous arbre
-  //
+  // @remark Complexité O(n)
     static void arborize(Node *& tree, Node *& list, size_t cnt) noexcept 
     {
         Node *subTreeR;
@@ -685,7 +686,7 @@ private:
         if (cnt > 0)
         {
             size_t cntL = (cnt - 1) / 2; // pour compteur pour le s-a gauche
-            size_t cntR = cnt - cntL; // pour compteur pour le s-a droite
+            size_t cntR = cnt - cntL - 1; // pour compteur pour le s-a droite
             arborize(subTreeL, list, cntL); 
             tree = list; 
             list = list->right;
@@ -707,7 +708,7 @@ public:
   // @param f une fonction capable d'être appelée en recevant une cle
   //          en parametre. Pour le noeud n courrant, l'appel sera
   //          f(n->key);
-  //
+  // @remark Compexité en moyenne en O(n)
   template <typename Fn>
   void visitPre (Fn f) 
   {
@@ -739,7 +740,7 @@ public:
   // @param f une fonction capable d'être appelée en recevant une cle
   //          en parametre. Pour le noeud n courrant, l'appel sera
   //          f(n->key);
-  //
+  // @remark Compexité en moyenne en O(n)
   template <typename Fn>
   void visitSym (Fn f) 
   {
@@ -771,7 +772,7 @@ public:
   // @param f une fonction capable d'être appelée en recevant une cle
   //          en parametre. Pour le noeud n courrant, l'appel sera
   //          f(n->key);
-  //
+  // @remark Compexité en moyenne en O(n)
   template < typename Fn >
   void visitPost (Fn f) 
   {
