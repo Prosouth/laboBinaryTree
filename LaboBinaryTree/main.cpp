@@ -68,7 +68,7 @@ public:
    *  @brief Constucteur de copie.
    *
    *  @param other le BinarySearchTree à copier
-   *  @remark Complexité O(n)
+   *  @remark Complexité O(1)
    *
    */
   BinarySearchTree(BinarySearchTree& other) 
@@ -123,7 +123,8 @@ public:
             copyNodes(tmp, other._root);
             deleteSubTree(_root);
             _root = tmp;
-        } catch (...) 
+        } 
+        catch (...) 
         {
             deleteSubTree(tmp);
             throw;
