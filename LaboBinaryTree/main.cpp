@@ -85,16 +85,25 @@ public:
       }
   }
   
-  
-  void copyNodes(Node *& r, Node *rToCopy)
+  /**
+   * 
+   * @brief Fonction qui permet de copier tous les éléments d'un ABR
+   * 
+   * 
+   * @param r
+   * @param nodeToCopy
+   * 
+   * @remark Complexité 0(1)
+   */
+  void copyNodes(Node *& r, Node *nodeToCopy)
   {
-        if (rToCopy) 
+        if (nodeToCopy) 
         {
-            r = new Node(rToCopy->key);
-            r->nbElements = rToCopy->nbElements;
+            r = new Node(nodeToCopy->key);
+            r->nbElements = nodeToCopy->nbElements;
 
-            copyNodes(r->left, rToCopy->left);
-            copyNodes(r->right, rToCopy->right);
+            copyNodes(r->left, nodeToCopy->left);
+            copyNodes(r->right, nodeToCopy->right);
         }
     }
 
@@ -103,7 +112,7 @@ public:
    *  @brief Opérateur d'affectation par copie.
    *
    *  @param other le BinarySearchTree à copier
-   *  @remark Compexité en moyenne en O(n)
+   *  @remark Compexité en moyenne en O(1)
    */
   BinarySearchTree& operator=(const BinarySearchTree& other) 
   {
@@ -128,7 +137,7 @@ public:
    *  @param other le BST avec lequel on echange le contenu
    *  @remark Compexité en moyenne en O(1)
    */
-  void swap(BinarySearchTree& other ) noexcept 
+  void swap(BinarySearchTree& other) noexcept 
   {
       Node* tmp = other._root;
       other._root = _root;
